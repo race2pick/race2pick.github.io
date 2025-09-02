@@ -34,7 +34,7 @@ Perfect for team activities, classroom games, or just having fun with friends.
 Clone the repository and install dependencies:
 
 ```bash
-git clone git@github.com:race2pick/race2pick.github.io.git
+git clone https://github.com/race2pick/race2pick.github.io.git
 cd race2pick.github.io
 yarn install
 ```
