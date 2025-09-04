@@ -2,9 +2,13 @@ import type { Data } from "@/lib/type";
 import { createContext, useContext } from "react";
 
 interface App {
+  isReady: boolean;
   setDataSearchParams: (data: string) => void;
   getDataSearchParams: () => Data | undefined;
+  getSlugSearchParams: () => string | null;
   clearSearchParams: () => void;
+  setIsReady: (isReady: boolean) => void;
+
 }
 
 const AppContext = createContext<App | undefined>(undefined);

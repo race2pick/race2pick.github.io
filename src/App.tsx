@@ -1,16 +1,15 @@
-import { Suspense, lazy } from "react";
+import { Suspense } from "react";
 import { AppProvider } from "./context/app";
 import { ToastProvider } from "./context/toast";
 import Loading from "./components/ui/loading";
-
-const Game = lazy(() => import("./game"));
+import Page from "./pages";
 
 function App() {
   return (
     <Suspense fallback={<Loading />}>
       <ToastProvider>
         <AppProvider>
-          <Game />
+          <Page />
         </AppProvider>
       </ToastProvider>
     </Suspense>
