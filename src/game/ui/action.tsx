@@ -43,7 +43,7 @@ export default function Action() {
     if (gameState === "not-started" && count === 0 && canStart) {
       setGameState("started");
     }
-  }, [gameState, count, canStart]);
+  }, [gameState, count, canStart, setGameState]);
 
   return (
     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

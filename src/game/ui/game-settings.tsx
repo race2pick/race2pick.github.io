@@ -1,4 +1,5 @@
-import { useArena, defaultDistance, defaultSpeed } from "@/context/arena";
+import { useArena } from "@/context/arena";
+import { defaultDistance, defaultSpeed } from "@/context/arena/constant";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
 
@@ -28,11 +29,11 @@ export default function GameSettings() {
 
   useEffect(() => {
     setDistance(trackLongDebounced);
-  }, [trackLongDebounced]);
+  }, [setDistance, trackLongDebounced]);
 
   useEffect(() => {
     setSpeed([trackSpeedMinDebounced, trackSpeedMaxDebounced]);
-  }, [trackSpeedMinDebounced, trackSpeedMaxDebounced]);
+  }, [trackSpeedMinDebounced, trackSpeedMaxDebounced, setSpeed]);
 
   useEffect(() => {
     if (!isSearchParamReaded || !waitDistanceFromArena.current) {
@@ -93,7 +94,7 @@ export default function GameSettings() {
               type="range"
               className="grow no"
               min={1000}
-              max={5000}
+              max={10000}
               step={100}
               value={trackLong}
               onChange={(e) => setTrackLong(parseInt(e.target.value))}

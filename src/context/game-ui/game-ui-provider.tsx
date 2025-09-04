@@ -16,7 +16,7 @@ export function GameUiProvider({ children }: { children: React.ReactNode }) {
     (names: string[]) => {
       setPlayers(names);
     },
-    [players]
+    [setPlayers]
   );
 
   const setNamesDebounced = useDebounceCallback(setNames, 250);
@@ -25,7 +25,7 @@ export function GameUiProvider({ children }: { children: React.ReactNode }) {
     if (waitPlayerFromArena.current) return;
 
     setNamesDebounced(rawNames.split("\n"));
-  }, [rawNames, isSearchParamReaded]);
+  }, [rawNames, isSearchParamReaded, setNamesDebounced]);
 
   useEffect(() => {
     if (!isSearchParamReaded || !waitPlayerFromArena.current) {

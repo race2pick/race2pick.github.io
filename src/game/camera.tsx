@@ -3,11 +3,16 @@ import { useEffect, useMemo, useState } from "react";
 import { useArena, playerBoxWidth } from "@/context/arena";
 
 export default function Camera({ children }: React.PropsWithChildren) {
-  const { distance, gameState, currentFaster, playerHeight, players } =
+  const { distance, gameState, currentFaster, playerHeight, players, speed } =
     useArena();
 
   const [isMove, setIsMove] = useState(false);
   const [cameraX, setCameraX] = useState(0);
+
+  const dividerScreen = useMemo(
+    () => Math.max(speed[1] / 10 + 1, 3),
+    [speed]
+  );
 
   const finalX = useMemo(
     () => distance - window.innerWidth + playerBoxWidth + 16,
@@ -18,17 +23,17 @@ export default function Camera({ children }: React.PropsWithChildren) {
     if (gameState === "started") {
       const screenWidth = window.innerWidth;
       if (distance >= screenWidth - playerBoxWidth) {
-        setIsMove(currentFaster > screenWidth / 2);
+        setIsMove(currentFaster > screenWidth / dividerScreen);
       }
     }
-  }, [distance, currentFaster, gameState]);
+  }, [distance, currentFaster, gameState, dividerScreen]);
 
   useEffect(() => {
     if (gameState === "started" && isMove) {
       const screenWidth = window.innerWidth;
 
       // camera follows leader, centered until max scroll
-      let nextMove = currentFaster - screenWidth / 2 + playerBoxWidth / 2;
+      let nextMove = currentFaster - screenWidth / dividerScreen + playerBoxWidth / 2;
 
       // clamp to boundaries
       if (nextMove < 0) nextMove = 0;
@@ -36,7 +41,7 @@ export default function Camera({ children }: React.PropsWithChildren) {
 
       setCameraX(nextMove);
     }
-  }, [currentFaster, finalX, gameState, isMove]);
+  }, [currentFaster, finalX, gameState, isMove, dividerScreen]);
 
   useEffect(() => {
     if (gameState === "not-started") {
@@ -54,8 +59,8 @@ export default function Camera({ children }: React.PropsWithChildren) {
       }}
       animate={{ x: -cameraX }}
       transition={{
-        ease: "linear",
-        duration: gameState === "not-started" ? 0.5 : 1.5,
+        type: "tween",
+        duration: gameState === "not-started" ? 0.5 : 1,
       }}
     >
       {children}

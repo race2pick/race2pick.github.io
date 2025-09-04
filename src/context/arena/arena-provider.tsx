@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { ArenaContext, type GameState } from "./arena-context";
 import { compressData } from "@/lib/utils";
 import { useApp } from "../app";
+import { defaultDistance, defaultSpeed } from "./constant";
 
 const playerHeight = 50;
-export const defaultDistance = 2000;
-export const defaultSpeed: [number, number] = [30, 50];
+
 const defaultPlayers = `Player 1\nPlayer 2\nPlayer 3\nPlayer 4`;
 
 export function ArenaProvider({ children }: { children: React.ReactNode }) {
@@ -90,7 +90,7 @@ export function ArenaProvider({ children }: { children: React.ReactNode }) {
     }
 
     setIsSearchParamReaded(true);
-  }, [isSearchParamReaded]);
+  }, [getDataSearchParams, isSearchParamReaded]);
 
   useEffect(() => {
     if (!isCountdown) return;

@@ -22,10 +22,10 @@ function Share() {
     try {
       await navigator.clipboard.writeText(data?.shorturl ?? fullUrl);
       show("Link copied to clipboard");
-    } catch (err) {
+    } catch (_) {
       warn("Failed to copy link");
     }
-  }, [fullUrl, isLoading, data]);
+  }, [fullUrl, isLoading, data, show, warn]);
 
   return (
     <motion.div

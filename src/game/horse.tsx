@@ -36,6 +36,7 @@ export default function Horse({ name, index }: HorseProps) {
   const [dotLottie, setDotLottie] = useState<DotLottie | null>(null);
   const [position, setPosition] = useState(0);
   const [curPosition, setCurPosition] = useState(0);
+  // const [speedNow, setSpeedNow] = useState(0);
 
   const {
     players,
@@ -88,16 +89,20 @@ export default function Horse({ name, index }: HorseProps) {
       dotLottie?.pause();
       dotLottie?.setFrame(0);
     }
-  }, [gameState]);
+  }, [gameState, dotLottie]);
 
   useEffect(() => {
     if (gameState === "started") {
       dotLottie?.play();
-      dotLottie?.setSpeed(0.5);
-      const boost = randomInt(speed[0] * 7, speed[1] * 7);
+      const min = speed[0] * 7;
+      const max = speed[1] * 7;
+      const boost = randomInt(min, max);
+      const ratio = (boost - min) / (max - min); // normalize ke 0..1
+      const animSpeed = 0.5 + ratio * 0.1 * 1.0; // 0.5..1.5
+      dotLottie?.setSpeed(animSpeed);
       setPosition(boost);
     }
-  }, [gameState]);
+  }, [gameState, dotLottie, speed]);
 
   useEffect(() => {
     if (gameState !== "started") return;
@@ -107,7 +112,7 @@ export default function Horse({ name, index }: HorseProps) {
 
     const interval = setInterval(() => {
       targetSpeed = randomInt(speed[0], speed[1]); // random tujuan baru
-    }, 1000); // tiap 2 detik ganti target
+    }, 1000); // tiap 1 detik ganti target
 
     const frame = setInterval(() => {
       // Smooth menuju target
@@ -131,7 +136,7 @@ export default function Horse({ name, index }: HorseProps) {
       clearInterval(interval);
       clearInterval(frame);
     };
-  }, [gameState, raceLong, speed]);
+  }, [dotLottie, gameState, raceLong, speed]);
 
   useEffect(() => {
     let to: NodeJS.Timeout;
@@ -152,7 +157,7 @@ export default function Horse({ name, index }: HorseProps) {
     }
 
     return () => clearTimeout(to);
-  }, [gameState, winner]);
+  }, [curPosition, dotLottie, gameState, name, setGameState, winner]);
 
   useEffect(() => {
     let to: NodeJS.Timeout;
@@ -165,13 +170,13 @@ export default function Horse({ name, index }: HorseProps) {
     }
 
     return () => clearTimeout(to);
-  }, [gameState]);
+  }, [dotLottie, gameState, raceLong, setGameState]);
 
   useEffect(() => {
     if (gameState === "end") {
       dotLottie?.pause();
     }
-  }, [gameState]);
+  }, [dotLottie, gameState]);
 
   useEffect(() => {
     if (gameState === "not-started") {
@@ -180,12 +185,9 @@ export default function Horse({ name, index }: HorseProps) {
     }
   }, [gameState]);
 
-  useEffect(() => {
-    setCurrentFaster(position);
-  }, [position]);
-
   useMotionValueEvent(x, "change", (latest) => {
     if (gameState === "started") {
+      setCurrentFaster(latest);
       setCurPosition(latest);
       if (latest >= raceLong) {
         setWinner((prev) => {

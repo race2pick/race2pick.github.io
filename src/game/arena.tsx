@@ -20,7 +20,7 @@ export default function Arena() {
     const space = arenaAreaUsage / (players?.length || 1);
 
     setPlayerGap(space);
-  }, [players.length]);
+  }, [playerHeight, players?.length, setPlayerGap]);
 
   return (
     <>
