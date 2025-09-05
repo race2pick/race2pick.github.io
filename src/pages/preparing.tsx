@@ -26,7 +26,6 @@ export default function Preparing() {
     if (slugParams) {
       setSlug(slugParams);
     } else {
-      clearSearchParams();
       setDoneSetData(true);
     }
     setDoneCheckSlug(true);

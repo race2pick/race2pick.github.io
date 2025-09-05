@@ -14,7 +14,7 @@ async function getDataBySlug(slug: string): Promise<string | undefined | null> {
   }
 }
 
-async function getSlug(data: string) {
+async function getSlug(data: string): Promise<string | undefined | null> {
   try {
     const res = await fetch("https://race2pick.race2pick.workers.dev", {
       method: "POST",
@@ -35,43 +35,32 @@ async function getSlug(data: string) {
   }
 }
 
-export function useSlug(data: string) {
-  const [slug, setSlug] = useState<string | null>(cache[data] ?? null);
-  const [isLoading, setIsLoading] = useState(!cache[data]);
-  const [isError, setIsError] = useState(false);
+export function useSlug() {
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (!data || isError) return;
-
-    let mounted = true;
-
+  function fetchData(data: string) {
     if (cache[data]) {
-      setSlug(cache[data]);
-      setIsLoading(false);
-      return;
+      return cache[data];
     }
-
     setIsLoading(true);
-    getSlug(data).then((result) => {
-      if (!mounted) return;
 
-      if (!result) {
-        setIsError(true);
+    return getSlug(data)
+      .then((result) => {
+        if (result) {
+          cache[data] = result;
+          setIsLoading(false);
+          return result;
+        }
         setIsLoading(false);
-        return;
-      }
+        return undefined;
+      })
+      .catch(() => {
+        setIsLoading(false);
+        return undefined;
+      });
+  }
 
-      cache[data] = result;
-      setSlug(result);
-      setIsLoading(false);
-    });
-
-    return () => {
-      mounted = false;
-    };
-  }, [data, isLoading, isError]);
-
-  return { slug, isLoading };
+  return { fetchData, isLoading };
 }
 
 export function useSlugData(slug: string, enabled: boolean) {

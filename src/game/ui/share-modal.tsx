@@ -3,22 +3,33 @@ import { AnimatePresence, motion } from "motion/react";
 import { Icon } from "@iconify/react";
 import { useToast } from "@/context/toast";
 import { useSlug } from "@/lib/networks";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 function Share() {
   const { setIsShareModalOpen } = useGameUI();
   const { show, warn } = useToast();
+  const [slug, setSlug] = useState<string | undefined | null>(null);
 
-  const data = useMemo(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const data = searchParams.get("d") ?? "";
-    return data;
+  const { fetchData, isLoading } = useSlug();
+
+  useEffect(() => {
+    const getSlug = async () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const data = searchParams.get("d") ?? "";
+      const slug = await fetchData(data);
+
+      setSlug(slug);
+    };
+
+    getSlug();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { slug, isLoading } = useSlug(data);
-
   const shortenUrl = useMemo(() => {
+    if (!slug) return window.location.href;
+
     const origin = window.location.origin;
     return `${origin}?s=${slug}`;
   }, [slug]);
