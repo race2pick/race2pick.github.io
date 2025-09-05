@@ -25,7 +25,8 @@ export function GameUiProvider({ children }: { children: React.ReactNode }) {
     if (waitPlayerFromArena.current) return;
 
     setNamesDebounced(rawNames.split("\n"));
-  }, [rawNames, isSearchParamReaded, setNamesDebounced]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rawNames, isSearchParamReaded]);
 
   useEffect(() => {
     if (!isSearchParamReaded || !waitPlayerFromArena.current) {
