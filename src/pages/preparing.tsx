@@ -8,26 +8,29 @@ export default function Preparing() {
   const [doneCheckSlug, setDoneCheckSlug] = useState(false);
   const [doneSetData, setDoneSetData] = useState(false);
 
-  const { getSlugSearchParams, setIsReady, setDataSearchParams } = useApp();
+  const {
+    getSlugSearchParams,
+    setIsReady,
+    setDataSearchParams,
+    clearSearchParams,
+  } = useApp();
 
-  const { data, isLoading } = useSlugData(slug || "", !!slug);
+  const { data, isLoading } = useSlugData(slug || "", !!slug && doneCheckSlug);
 
   useEffect(() => {
     if (doneCheckSlug) {
       return;
     }
-
     const slugParams = getSlugSearchParams();
 
     if (slugParams) {
       setSlug(slugParams);
     } else {
+      clearSearchParams();
       setDoneSetData(true);
-      setIsReady(true);
     }
-
     setDoneCheckSlug(true);
-  }, [doneCheckSlug, getSlugSearchParams, setIsReady]);
+  }, [clearSearchParams, doneCheckSlug, getSlugSearchParams]);
 
   useEffect(() => {
     if (data) {
@@ -36,16 +39,17 @@ export default function Preparing() {
       return;
     }
 
-    if (!data && !isLoading) {
+    if (!data && doneCheckSlug && !isLoading) {
+      clearSearchParams();
       setDoneSetData(true);
     }
-  }, [data, setDataSearchParams, isLoading]);
+  }, [data, setDataSearchParams, doneCheckSlug, clearSearchParams, isLoading]);
 
   useEffect(() => {
-    if (doneCheckSlug && !isLoading && doneSetData) {
+    if (doneSetData) {
       setIsReady(true);
     }
-  }, [doneCheckSlug, isLoading, doneSetData, setIsReady]);
+  }, [doneSetData, setIsReady]);
 
   return <Loading />;
 }

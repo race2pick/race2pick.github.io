@@ -86,9 +86,9 @@ export default function Loading() {
         </motion.svg>
       </div>
       <p className="flex items-end gap-1 font-mono">
-        <div>Loading</div>
+        <span>Loading</span>
         {dots.map((val, i) => (
-          <motion.div
+          <motion.span
             animate={{ scale: val ? 1 : 0 }}
             className={cn("size-[3px] rounded-full mb-1 bg-white", {})}
             key={i}

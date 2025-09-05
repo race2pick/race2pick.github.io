@@ -2,7 +2,7 @@ import { useGameUI } from "@/context/game-ui";
 import { AnimatePresence, motion } from "motion/react";
 import { Icon } from "@iconify/react";
 import { useToast } from "@/context/toast";
-import { useShortenUrl } from "@/lib/networks";
+import { useSlug } from "@/lib/networks";
 import { useCallback, useMemo } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -10,22 +10,29 @@ function Share() {
   const { setIsShareModalOpen } = useGameUI();
   const { show, warn } = useToast();
 
-  const fullUrl = useMemo(() => {
-    return window.location.toString();
+  const data = useMemo(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const data = searchParams.get("d") ?? "";
+    return data;
   }, []);
 
-  const { data, isLoading } = useShortenUrl(fullUrl);
+  const { slug, isLoading } = useSlug(data);
+
+  const shortenUrl = useMemo(() => {
+    const origin = window.location.origin;
+    return `${origin}?s=${slug}`;
+  }, [slug]);
 
   const copy = useCallback(async () => {
     if (isLoading) return;
 
     try {
-      await navigator.clipboard.writeText(data?.shorturl ?? fullUrl);
+      await navigator.clipboard.writeText(shortenUrl);
       show("Link copied to clipboard");
     } catch (_) {
       warn("Failed to copy link");
     }
-  }, [fullUrl, isLoading, data, show, warn]);
+  }, [isLoading, shortenUrl, show, warn]);
 
   return (
     <motion.div
@@ -39,7 +46,7 @@ function Share() {
         className="bg-gray-500 rounded-3xl overflow-hidden max-w-xl"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        exit={{ scale: 0.1}}
+        exit={{ scale: 0.1 }}
         transition={{ duration: 0.5, type: "spring" }}
       >
         <h1 className="w-full bg-gray-600 p-4 text-center text-2xl font-mono">
@@ -58,7 +65,7 @@ function Share() {
                   Link
                 </div>
                 <input
-                  value={data?.shorturl}
+                  value={shortenUrl}
                   contentEditable={false}
                   className="focus:outline-none grow bg-gray-600 px-2"
                   onFocus={copy}

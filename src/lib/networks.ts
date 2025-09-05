@@ -1,21 +1,7 @@
 import { useEffect, useState } from "react";
 
-interface ShortenUrl {
-  shorturl: string;
-}
-
-// cache global (per URL)
-const cache: Record<string, ShortenUrl> = {};
+const cache: Record<string, string> = {};
 const cacheSlug: Record<string, string> = {};
-
-function isLocalhostUrl() {
-  try {
-    const hostname = window.location.hostname;
-    return ["localhost", "127.0.0.1", "::1"].includes(hostname);
-  } catch {
-    return false;
-  }
-}
 
 async function getDataBySlug(slug: string): Promise<string | undefined | null> {
   try {
@@ -28,53 +14,64 @@ async function getDataBySlug(slug: string): Promise<string | undefined | null> {
   }
 }
 
-async function getShortenUrl(longUrl: string): Promise<ShortenUrl> {
-  if (isLocalhostUrl()) {
-    return { shorturl: window.location.href };
-  }
-
+async function getSlug(data: string) {
   try {
-    const res = await fetch(
-      "https://is.gd/create.php?format=json&url=" + encodeURIComponent(longUrl)
-    );
-    const data = await res.json();
+    const res = await fetch("https://race2pick.race2pick.workers.dev", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data }),
+    });
+    const rasponseJson = await res.json();
 
-    if (data?.errorcode) {
-      throw new Error(data.errorcode);
+    if (rasponseJson?.slug) {
+      return rasponseJson?.slug;
     }
-    return data;
+
+    return undefined;
   } catch {
-    return { shorturl: window.location.href };
+    return undefined;
   }
 }
 
-export function useShortenUrl(longUrl: string) {
-  const [data, setData] = useState<ShortenUrl | null>(cache[longUrl] ?? null);
-  const [isLoading, setIsLoading] = useState(!cache[longUrl]);
+export function useSlug(data: string) {
+  const [slug, setSlug] = useState<string | null>(cache[data] ?? null);
+  const [isLoading, setIsLoading] = useState(!cache[data]);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
+    if (!data || isError) return;
+
     let mounted = true;
 
-    if (cache[longUrl]) {
-      setData(cache[longUrl]);
+    if (cache[data]) {
+      setSlug(cache[data]);
       setIsLoading(false);
       return;
     }
 
     setIsLoading(true);
-    getShortenUrl(longUrl).then((result) => {
+    getSlug(data).then((result) => {
       if (!mounted) return;
-      cache[longUrl] = result;
-      setData(result);
+
+      if (!result) {
+        setIsError(true);
+        setIsLoading(false);
+        return;
+      }
+
+      cache[data] = result;
+      setSlug(result);
       setIsLoading(false);
     });
 
     return () => {
       mounted = false;
     };
-  }, [longUrl]);
+  }, [data, isLoading, isError]);
 
-  return { data, isLoading };
+  return { slug, isLoading };
 }
 
 export function useSlugData(slug: string, enabled: boolean) {
@@ -103,8 +100,9 @@ export function useSlugData(slug: string, enabled: boolean) {
           cacheSlug[slug] = result;
           setData(result);
         }
+        setIsLoading(false);
       })
-      .finally(() => {
+      .catch(() => {
         setIsLoading(false);
       });
 
