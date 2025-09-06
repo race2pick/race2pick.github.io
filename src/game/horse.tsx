@@ -96,7 +96,7 @@ export default function Horse({ name, index }: HorseProps) {
       const boost = randomInt(min, max);
       const ratio = (boost - min) / (max - min);
       const animSpeed = 0.5 + ratio * 0.1 * 1.0;
-      dotlottieSetSpeed(Math.max(animSpeed, 0.5));
+      dotlottieSetSpeed(Math.max(animSpeed, 0.8));
       setPosition(boost);
     }
   }, [gameState, speed]);
@@ -122,7 +122,7 @@ export default function Horse({ name, index }: HorseProps) {
       const max = speed[1];
       const ratio = (speedNow - min) / (max - min);
       const animSpeed = 0.5 + ratio * 1.0;
-      dotlottieSetSpeed(animSpeed);
+      dotlottieSetSpeed(Math.max(animSpeed, 0.5));
     }, 100);
 
     return () => {
