@@ -17,37 +17,38 @@ export default function Loading() {
   useEffect(() => {
     let timeout: NodeJS.Timeout;
 
-    const animateForward = () => {
+    const animateForwardUp = () => {
       y.set(-40);
-      x.set(40);
-      rotate.set(15);
-      scale.set(1.1);
-
-      timeout = setTimeout(() => {
-        y.set(0);
-        rotate.set(0);
-        scale.set(1);
-
-        timeout = setTimeout(animateBackward, 400);
-      }, 300);
-    };
-
-    const animateBackward = () => {
-      y.set(-40);
-      x.set(0);
+      x.set(20);
       rotate.set(-15);
       scale.set(1.1);
 
       timeout = setTimeout(() => {
         y.set(0);
-        rotate.set(0);
+        x.set(40);
+        rotate.set(15);
         scale.set(1);
 
-        timeout = setTimeout(animateForward, 400);
+        timeout = setTimeout(animateBackward, 600);
       }, 300);
     };
 
-    animateForward();
+    const animateBackward = () => {
+      y.set(-10);
+      x.set(0);
+      rotate.set(-15);
+      scale.set(1.05);
+
+      timeout = setTimeout(() => {
+        y.set(0);
+        rotate.set(0);
+        scale.set(1);
+
+        timeout = setTimeout(animateForwardUp, 400);
+      }, 300);
+    };
+
+    animateForwardUp();
 
     return () => clearTimeout(timeout);
   }, [y, x, rotate, scale]);
