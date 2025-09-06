@@ -63,7 +63,7 @@ export default function Horse({ name, index }: HorseProps) {
   const themeId = useMemo(() => {
     const cycleIndex = index % themes.length;
     return themes[cycleIndex];
-  }, [index]);
+  }, []);
 
   const {
     View,
