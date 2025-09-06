@@ -24,7 +24,7 @@ export default function UI() {
     <div className="w-full grow flex flex-col p-4">
       {gameState === "not-started" && !isCountdown && <GameUiContent />}
       <div className={cn("w-[100vw] flex justify-center p-6", {
-        "absolute bottom-0": gameState === "started" || isCountdown
+        "absolute bottom-0": gameState !== "not-started" || isCountdown
       })}>
         <a
           href="https://github.com/race2pick/race2pick.github.io"
