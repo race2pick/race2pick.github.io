@@ -65,3 +65,78 @@
   background-size: 16px 16px;
   width: 16px;
 }
+
+.horse.black {
+  --horse-theme: #141414;
+}
+.horse.white {
+  --horse-theme: #ffffff;
+}
+.horse.red {
+  --horse-theme: #FF0000;
+}
+.horse.green {
+  --horse-theme: #00FF00;
+}
+.horse.blue {
+  --horse-theme: #0000FF;
+}
+.horse.yellow {
+  --horse-theme: #FFFF00;
+}
+.horse.magenta {
+  --horse-theme: #FF00FF;
+}
+.horse.cyan {
+  --horse-theme: #00FFFF;
+}
+.horse.oranye {
+  --horse-theme: #FF7F00;
+}
+.horse.chartreush {
+  --horse-theme: #7FFF00;
+}
+.horse.deep-pink {
+  --horse-theme: #FF1493;
+}
+.horse.dark-turq path {
+  --horse-theme: #00CED1;
+}
+.horse.green-yelath {
+  --horse-theme: #ADFF2F;
+}
+.horse.orangered {
+  --horse-theme: #FF4500;
+}
+.horse.dark-violth {
+  --horse-theme: #9400D3;
+}
+.horse.turquoise {
+  --horse-theme: #40E0D0;
+}
+.horse.gold {
+  --horse-theme: #FFD700;
+}
+.horse.orchid {
+  --horse-theme: #DA70D6;
+}
+.horse.lawn-greeh {
+  --horse-theme: #7CFC00;
+}
+.horse.hot-pink {
+  --horse-theme: #FF69B4;
+}
+.horse.cornfloweg path {
+  --horse-theme: #6495ED;
+}
+.horse.dodger-blth {
+  --horse-theme: #1E90FF;
+}
+
+.horse svg path{
+  fill: var(--horse-theme);
+}
+
+.horse .player-name{
+  background-color: color-mix(in srgb, var(--horse-theme) 25%, transparent)
+}

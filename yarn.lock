@@ -638,24 +638,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lottiefiles/dotlottie-react@npm:^0.15.1":
-  version: 0.15.2
-  resolution: "@lottiefiles/dotlottie-react@npm:0.15.2"
-  dependencies:
-    "@lottiefiles/dotlottie-web": "npm:0.50.2"
-  peerDependencies:
-    react: ^17 || ^18 || ^19
-  checksum: 10c0/afa716417d24c6ba9a82b2c544c41e393cff7891b30b6a0691ad9389c24936c74a1a74227d8f31a750b42f97f0ac38d8d7ed460b64f1b7ab938b31f0bc273985
-  languageName: node
-  linkType: hard
-
-"@lottiefiles/dotlottie-web@npm:0.50.2":
-  version: 0.50.2
-  resolution: "@lottiefiles/dotlottie-web@npm:0.50.2"
-  checksum: 10c0/0af4a6c6dcba78e8e9415b0a364d28d58af956fb81c8dd3ca328ecfdfa516910b8e3a25827f38a5bbf93af0eb8415386476fb79f32fc7910b3a8b12694121e3f
-  languageName: node
-  linkType: hard
-
 "@napi-rs/wasm-runtime@npm:^0.2.12":
   version: 0.2.12
   resolution: "@napi-rs/wasm-runtime@npm:0.2.12"
@@ -2449,6 +2431,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lottie-react@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "lottie-react@npm:2.4.1"
+  dependencies:
+    lottie-web: "npm:^5.10.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/7f6a0a2cf2af25deabe7b4d4c9917e47d12016673613c59dcdd8ef52e10e914dd0c1f71d4a275d56aaba03fe9d85b333087f7c8d40a8f967ece4a0444c7a3cdf
+  languageName: node
+  linkType: hard
+
+"lottie-web@npm:^5.10.2":
+  version: 5.13.0
+  resolution: "lottie-web@npm:5.13.0"
+  checksum: 10c0/b463ad462169df3f7e04b7f3716274e269842554f1d72b8303ca7245628f2512982a59ae31698b3d57fbcda886228ae160fcb2aa518c6cecd8a95974db2458ee
+  languageName: node
+  linkType: hard
+
 "lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
   version: 10.4.3
   resolution: "lru-cache@npm:10.4.3"
@@ -2882,7 +2883,6 @@ __metadata:
   dependencies:
     "@eslint/js": "npm:^9.33.0"
     "@iconify/react": "npm:^6.0.0"
-    "@lottiefiles/dotlottie-react": "npm:^0.15.1"
     "@tailwindcss/vite": "npm:^4.1.12"
     "@types/node": "npm:^24.3.0"
     "@types/react": "npm:^19.1.10"
@@ -2893,6 +2893,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.20"
     globals: "npm:^16.3.0"
+    lottie-react: "npm:^2.4.1"
     lz-string: "npm:^1.5.0"
     motion: "npm:^12.23.12"
     react: "npm:^19.1.1"
