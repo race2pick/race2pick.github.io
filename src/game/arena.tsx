@@ -25,7 +25,7 @@ export default function Arena() {
   return (
     <>
       <motion.div
-        className="absolute ground-grass top-0 left-0 h-full min-w-full"
+        className="absolute ground-muddy top-0 left-0 h-full min-w-full"
         style={{ width: distance + playerBoxWidth + 50 }}
         transition={{ type: "spring", stiffness: 50, damping: 20 }}
       ></motion.div>

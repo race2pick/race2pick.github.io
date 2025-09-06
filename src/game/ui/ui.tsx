@@ -23,9 +23,11 @@ export default function UI() {
   return (
     <div className="w-full grow flex flex-col p-4">
       {gameState === "not-started" && !isCountdown && <GameUiContent />}
-      <div className={cn("w-[100vw] flex justify-center p-6", {
-        "absolute bottom-0": gameState !== "not-started" || isCountdown
-      })}>
+      <div
+        className={cn("w-[100vw] flex justify-center p-6", {
+          "absolute bottom-0": gameState !== "not-started" || isCountdown,
+        })}
+      >
         <a
           href="https://github.com/race2pick/race2pick.github.io"
           target="_blank"
@@ -37,7 +39,7 @@ export default function UI() {
 
       {gameState === "finished" && winner && (
         <motion.div
-          className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center text-white text-shadow-2xs text-4xl"
+          className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center text-white text-6xl text-shadow-[2px_2px_10px,-2px_-2px_10px,-2px_2px_10px,2px_-2px_10px]  text-shadow-black/50 font-black "
           animate={{ opacity: [0, 1], scale: [0, 1], rotate: [0, 360] }}
           transition={{ duration: 2 }}
         >
