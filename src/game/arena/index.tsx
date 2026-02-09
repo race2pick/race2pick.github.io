@@ -1,4 +1,4 @@
-import { extend, useApplication, useTick } from "@pixi/react";
+import { useApplication, useTick } from "@pixi/react";
 import { Container } from "pixi.js";
 
 import { useRef } from "react";
@@ -7,14 +7,10 @@ import { playerHeight } from "@/context/arena/constant";
 import Background from "./components/background";
 import Horse from "../horse";
 
-extend({
-  Container,
-});
-
 export function Arena({ size }: { size: { width: number; height: number } }) {
   const arenaRef = useRef<Container>(null);
   const { app } = useApplication();
-  const { players, distance } = useArena();
+  const { players } = useArena();
 
   useTick(() => {
     app.queueResize();
@@ -26,7 +22,7 @@ export function Arena({ size }: { size: { width: number; height: number } }) {
 
   return (
     <pixiContainer ref={arenaRef} x={0} y={0}>
-      <Background trackLength={distance} trackheight={screenHeight} />
+      <Background trackheight={screenHeight} />
       {players.map((player, index) => {
         const maxY = screenHeight - playerHeight;
         const gap = maxY / (players.length + 1);

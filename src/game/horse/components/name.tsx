@@ -1,12 +1,6 @@
 import { HORSE_HEIGHT } from "@/game/static/horse";
-import { extend } from "@pixi/react";
-import { Container, Graphics, Text } from "pixi.js";
+import { Graphics, Text } from "pixi.js";
 import { useRef } from "react";
-
-extend({
-  Container,
-  Text,
-});
 
 export default function Name({
   name,

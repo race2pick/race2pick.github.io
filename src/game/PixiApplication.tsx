@@ -2,8 +2,25 @@ import { useArena } from "@/context/arena";
 import { useRef } from "react";
 import { useContainerSize } from "./hooks/useContainerSize";
 import { HORSE_HEIGHT } from "./static/horse";
-import { Application } from "@pixi/react";
+import { Application, extend } from "@pixi/react";
 import { Arena } from "./arena";
+import {
+  AnimatedSprite,
+  Container,
+  Graphics,
+  Sprite,
+  Text,
+  TilingSprite,
+} from "pixi.js";
+
+extend({
+  Container,
+  Graphics,
+  Sprite,
+  TilingSprite,
+  AnimatedSprite,
+  Text,
+});
 
 export default function PixiApplication() {
   const { players } = useArena();
