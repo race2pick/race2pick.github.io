@@ -15,11 +15,10 @@ import {
   Texture,
   TilingSprite,
   FillGradient,
-  Assets,
   BlurFilter,
   NoiseFilter,
 } from "pixi.js";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 
 extend({
   Container,
@@ -27,54 +26,6 @@ extend({
   Sprite,
   TilingSprite,
 });
-
-const useGrassAssets = () => {
-  const [loaded, setLoaded] = useState(false);
-  const isLoaded = useRef(false);
-
-  useEffect(() => {
-    const load = async () => {
-      Assets.addBundle("grass", [
-        { alias: "grass1", src: "./grass1.svg" },
-        { alias: "grass2", src: "./grass2.svg" },
-        { alias: "grass3", src: "./grass3.svg" },
-      ]);
-
-      Assets.addBundle("grass-faded", [
-        { alias: GRASS_FADED_ALIASES[0], src: "./grass-faded-01.svg" },
-        { alias: GRASS_FADED_ALIASES[1], src: "./grass-faded-02.svg" },
-        { alias: GRASS_FADED_ALIASES[2], src: "./grass-faded-03.svg" },
-      ]);
-
-      Assets.addBundle("puddle", [
-        { alias: PUDDLE_ALIASES[0], src: "./puddle01.svg" },
-        { alias: PUDDLE_ALIASES[1], src: "./puddle02.svg" },
-        { alias: PUDDLE_ALIASES[2], src: "./puddle03.svg" },
-        { alias: PUDDLE_ALIASES[3], src: "./puddle04.svg" },
-      ]);
-
-      await Assets.loadBundle("grass");
-      await Assets.loadBundle("grass-faded");
-      await Assets.loadBundle("puddle");
-      await Assets.load({
-        alias: "start-finish",
-        src: "./line.svg",
-      });
-
-      isLoaded.current = true;
-
-      setLoaded(true);
-    };
-
-    if (!isLoaded.current) {
-      load();
-    } else {
-      setLoaded(true);
-    }
-  }, []);
-
-  return loaded;
-};
 
 function Land({ trackheight }: { trackheight: number }) {
   const { trackLengthWithBuffer } = useTrackLength();
@@ -145,12 +96,10 @@ function Land({ trackheight }: { trackheight: number }) {
 }
 
 function Grass() {
-  const loaded = useGrassAssets();
 
   const { trackLengthWithBuffer } = useTrackLength();
 
   const grassItems = useMemo(() => {
-    if (!loaded) return [];
 
     const items: { alias: string; x: number; scale: number }[] = [];
     let x = GRASS_GAP;
@@ -171,9 +120,8 @@ function Grass() {
     }
 
     return items;
-  }, [loaded, trackLengthWithBuffer]);
+  }, [trackLengthWithBuffer]);
 
-  if (!loaded) return null;
 
   return (
     <>
@@ -192,12 +140,11 @@ function Grass() {
 }
 
 function GrassFaded() {
-  const loaded = useGrassAssets();
+  // const loaded = useGrassAssets();
 
   const { trackLengthWithBuffer } = useTrackLength();
 
   const grassItems = useMemo(() => {
-    if (!loaded) return [];
 
     const TARGET_HEIGHT = 10;
 
@@ -223,9 +170,8 @@ function GrassFaded() {
     }
 
     return items;
-  }, [loaded, trackLengthWithBuffer]);
+  }, [trackLengthWithBuffer]);
 
-  if (!loaded) return null;
 
   return (
     <>
@@ -245,12 +191,10 @@ function GrassFaded() {
 }
 
 function Puddle({ trackheight }: { trackheight: number }) {
-  const loaded = useGrassAssets();
 
   const { trackLengthWithBuffer } = useTrackLength();
 
   const puddleItems = useMemo(() => {
-    if (!loaded) return [];
 
     const area = trackLengthWithBuffer * trackheight;
     const cellCount = Math.floor(area / 30000);
@@ -277,9 +221,8 @@ function Puddle({ trackheight }: { trackheight: number }) {
     }
 
     return items;
-  }, [loaded, trackLengthWithBuffer, trackheight]);
+  }, [trackLengthWithBuffer, trackheight]);
 
-  if (!loaded) return null;
 
   return (
     <>
@@ -305,14 +248,12 @@ function StartFinishLine({
   x: number;
   trackHeight: number;
 }) {
-  const loaded = useGrassAssets();
 
   const shadowBlurNoise = useMemo(
     () => [new BlurFilter({ strength: 1 }), new NoiseFilter({ noise: 0.2 })],
     [],
   );
 
-  if (!loaded) return null;
 
   const texture = Texture.from("start-finish");
 
