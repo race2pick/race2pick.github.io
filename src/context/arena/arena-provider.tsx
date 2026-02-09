@@ -4,7 +4,7 @@ import { compressData } from "@/lib/utils";
 import { useApp } from "../app";
 import { defaultDistance, defaultSpeed } from "./constant";
 
-const playerHeight = 50;
+const playerHeight = 61;
 
 const defaultPlayers = `Player 1\nPlayer 2\nPlayer 3\nPlayer 4`;
 

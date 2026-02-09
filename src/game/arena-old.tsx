@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { useEffect, useRef } from "react";
 import { useArena, playerBoxWidth } from "@/context/arena";
 
-import Horse from "./horse";
+import Horse from "./horse-old";
 
 export default function Arena() {
   const arenaRef = useRef<HTMLDivElement>(null);

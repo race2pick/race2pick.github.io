@@ -1,18 +1,13 @@
 import { ArenaProvider } from "@/context/arena";
-import Camera from "./camera";
-import Arena from "./arena";
-import Action from "./ui/action";
 import GameUi from "./ui/game-ui";
+import PixiApplication from "./PixiApplication";
 
 export default function Game() {
   return (
     <ArenaProvider>
-      <div className="h-svh">
+      <div className="h-svh max-w-svw overflow-x-hidden flex flex-col">
         <div className="relative w-full overflow-hidden shrink-0">
-          <Camera>
-            <Arena />
-          </Camera>
-          <Action />
+          <PixiApplication />
         </div>
         <GameUi />
       </div>
