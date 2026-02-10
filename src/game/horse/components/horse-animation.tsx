@@ -11,6 +11,8 @@ import {
 import { useTick } from "@pixi/react";
 import { randomMinMax } from "@/game/utils/common";
 
+const shadowColor = new Color(0x000000);
+
 export default function HorseAnimation({
   currentSpeed,
   horseColor,
@@ -38,6 +40,8 @@ export default function HorseAnimation({
   }, [gameState]);
 
   const shadowBlur = useMemo(() => [new BlurFilter({ strength: 4 })], []);
+
+  const horseColorTint = useMemo(() => new Color(horseColor), [horseColor]);
 
   useTick((tick) => {
     const dtMs = tick.elapsedMS;
@@ -115,7 +119,7 @@ export default function HorseAnimation({
           x={45}
           y={HORSE_HEIGHT + 2}
           scale={{ x: 0.3, y: -0.1 }}
-          tint={new Color(0x000000)}
+          tint={shadowColor}
           alpha={0.3}
           filters={shadowBlur}
         />
@@ -141,7 +145,7 @@ export default function HorseAnimation({
           anchor={0}
           height={HORSE_HEIGHT}
           width={HORSE_WIDTH}
-          tint={new Color(horseColor)}
+          tint={horseColorTint}
         />
       )}
     </>
