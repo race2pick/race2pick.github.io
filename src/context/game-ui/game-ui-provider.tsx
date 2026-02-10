@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { GameUiContext } from "./game-ui-context";
-import { useArena } from "../arena";
+import { usePlayers, useTrackSettings } from "../arena";
 import { useDebounceCallback } from "usehooks-ts";
 
 export function GameUiProvider({ children }: { children: React.ReactNode }) {
-  const { players, setPlayers, isSearchParamReaded } = useArena();
+  const { players, setPlayers } = usePlayers();
+  const { isSearchParamReaded } = useTrackSettings();
 
   const [rawNames, setRawNames] = useState("");
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);

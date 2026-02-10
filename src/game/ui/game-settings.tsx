@@ -1,11 +1,11 @@
-import { useArena } from "@/context/arena";
+import { useTrackSettings } from "@/context/arena";
 import { defaultDistance, defaultSpeed } from "@/context/arena/constant";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
 
 export default function GameSettings() {
   const { distance, speed, setSpeed, isSearchParamReaded, setDistance } =
-    useArena();
+    useTrackSettings();
 
   const [trackLong, setTrackLong] = useState(distance);
   const [trackSpeedMin, setTrackSpeedMin] = useState(speed[0]);

@@ -1,5 +1,6 @@
 import Loading from "@/components/ui/loading";
 import { useApp } from "@/context/app";
+import useLoadAssets from "@/game/hooks/useLoadAssets";
 import { useSlugData } from "@/lib/networks";
 import { useEffect, useState } from "react";
 
@@ -16,6 +17,8 @@ export default function Preparing() {
   } = useApp();
 
   const { data, isLoading } = useSlugData(slug || "", !!slug && doneCheckSlug);
+
+  const isLoadingAssets = useLoadAssets();
 
   useEffect(() => {
     if (doneCheckSlug) {
@@ -45,10 +48,10 @@ export default function Preparing() {
   }, [data, setDataSearchParams, doneCheckSlug, clearSearchParams, isLoading]);
 
   useEffect(() => {
-    if (doneSetData) {
+    if (doneSetData && !isLoadingAssets) {
       setIsReady(true);
     }
-  }, [doneSetData, setIsReady]);
+  }, [doneSetData, setIsReady, isLoadingAssets]);
 
   return <Loading />;
 }

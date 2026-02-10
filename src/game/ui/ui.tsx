@@ -1,4 +1,4 @@
-import { useArena } from "@/context/arena";
+import { useGameFlow, usePlayers } from "@/context/arena";
 import { motion } from "motion/react";
 import { useGameUI } from "@/context/game-ui";
 import ShareModal from "./share-modal";
@@ -7,7 +7,8 @@ import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
 
 export default function UI() {
-  const { gameState, winner, retry, isCountdown, setPlayers } = useArena();
+  const { gameState, winner, retry, isCountdown } = useGameFlow();
+  const { setPlayers } = usePlayers();
   const { rawNames, setRawNames } = useGameUI();
 
   const removeWinner = () => {
@@ -47,7 +48,7 @@ export default function UI() {
         </motion.div>
       )}
 
-      {["celebration", "end"].includes(gameState) && (
+      {["celebration"].includes(gameState) && (
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-black/25 flex items-center justify-center ">
           <motion.div
             className="flex flex-col justify-center items-center p-4 rounded-3xl bg-cyan-50/80 text-cyan-950 drop-shadow-2xl min-w-xs"
