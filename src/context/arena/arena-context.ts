@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   type Dispatch,
+  type RefObject,
   type SetStateAction,
 } from "react";
 
@@ -26,6 +27,7 @@ interface Arena {
   isCountdown: boolean;
   speed: [number, number];
   isSearchParamReaded: boolean;
+  fasterCurrentPosition: RefObject<number>;
 
   setPlayerGap: (playerGap: number) => void;
   setGameState: (gameState: GameState) => void;

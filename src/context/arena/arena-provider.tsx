@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArenaContext, type GameState } from "./arena-context";
 import { compressData } from "@/lib/utils";
 import { useApp } from "../app";
@@ -20,6 +20,8 @@ export function ArenaProvider({ children }: { children: React.ReactNode }) {
   const [players, _setPlayers] = useState<string[]>([]);
   const [isSearchParamReaded, setIsSearchParamReaded] = useState(false);
 
+  const fasterCurrentPosition = useRef(0);
+
   const { setDataSearchParams, getDataSearchParams, clearSearchParams } =
     useApp();
 
@@ -37,12 +39,12 @@ export function ArenaProvider({ children }: { children: React.ReactNode }) {
     _setPlayers(cleanNames);
   };
 
-  const setCurrentFaster = (current: number) => {
+  const setCurrentFaster = useCallback((current: number) => {
     _setCurrentFaster((prev) => {
       if (current > prev) return current;
       return prev;
     });
-  };
+  }, []);
 
   const startCountdown = () => {
     setIsCountdown(true);
@@ -114,6 +116,7 @@ export function ArenaProvider({ children }: { children: React.ReactNode }) {
         isCountdown,
         speed,
         isSearchParamReaded,
+        fasterCurrentPosition,
 
         setPlayerGap,
         setGameState,

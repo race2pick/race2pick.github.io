@@ -1,4 +1,4 @@
-import { BlurFilter, Color, Graphics, type AnimatedSprite } from "pixi.js";
+import { BlurFilter, Color, type AnimatedSprite } from "pixi.js";
 import { useHorseAssets } from "../useHorseAssets";
 import { useMemo, useRef, type RefObject } from "react";
 import { useArena } from "@/context/arena";
@@ -8,10 +8,8 @@ import {
   maxAnimSpeed,
   minAnimSpeed,
 } from "@/game/static/horse";
-import { useTick, type PixiReactElementProps } from "@pixi/react";
+import { useTick } from "@pixi/react";
 import { randomMinMax } from "@/game/utils/common";
-
-const IDLE_FRAME_START = 9;
 
 export default function HorseAnimation({
   currentSpeed,
@@ -130,10 +128,8 @@ export default function HorseAnimation({
           height={HORSE_HEIGHT}
           width={HORSE_WIDTH}
           tint={new Color(horseColor)}
-          
         />
       )}
     </>
   );
 }
-

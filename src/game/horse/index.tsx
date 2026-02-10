@@ -4,7 +4,7 @@ import { useApplication, useTick } from "@pixi/react";
 import { HORSE_HEIGHT } from "../static/horse";
 import HorseContainer from "./horse-container";
 import { useRef } from "react";
-import type { Container, Graphics } from "pixi.js";
+import type { Container } from "pixi.js";
 
 export default function Horse({
   size,
@@ -13,22 +13,20 @@ export default function Horse({
 }) {
   const { app } = useApplication();
 
-  const { players } = useArena();
+  const { players, fasterCurrentPosition, gameState } = useArena();
 
   const containerRef = useRef<Container>(null);
-  const graphicsRef = useRef<Graphics>(null);
 
   useTick(() => {
-    const bounds = containerRef.current?.getBounds();
-    const g = graphicsRef.current;
-    if (!bounds || !g) return;
+    if (gameState !== "started" || !containerRef.current) return;
 
-    console.log('*****', 'bounds' , '->', bounds.width);
-    g.clear();
-    g.rect(0, 0, bounds.width, bounds.height).stroke({
-      color: 0xff0000,
-      width: 1,
-    });
+    let maxX = 0;
+    for (const child of containerRef.current.children) {
+      if (child.x > maxX) {
+        maxX = child.x;
+      }
+    }
+    fasterCurrentPosition.current = maxX;
   });
 
   if (!app?.renderer) return null;
@@ -36,22 +34,19 @@ export default function Horse({
   const screenHeight = app.screen.height || size.height;
 
   return (
-    <>
-      <pixiGraphics ref={graphicsRef} draw={(graphics) => {}} />
-      <pixiContainer ref={containerRef} x={0} y={0}>
-        {players.map((player, index) => {
-          const maxY = screenHeight - HORSE_HEIGHT;
-          const gap = maxY / (players.length + 1);
-          return (
-            <HorseContainer
-              y={(index + 1) * gap}
-              index={index}
-              name={player}
-              key={player}
-            />
-          );
-        })}
-      </pixiContainer>
-    </>
+    <pixiContainer ref={containerRef} x={0} y={0}>
+      {players.map((player, index) => {
+        const maxY = screenHeight - HORSE_HEIGHT;
+        const gap = maxY / (players.length + 1);
+        return (
+          <HorseContainer
+          key={`horse-${player}`}
+            y={(index + 1) * gap}
+            index={index}
+            name={player}
+          />
+        );
+      })}
+    </pixiContainer>
   );
 }
