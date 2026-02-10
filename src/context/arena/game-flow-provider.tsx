@@ -19,7 +19,7 @@ export function GameFlowProvider({ children }: { children: React.ReactNode }) {
   };
 
   const retry = () => {
-    setGameState("not-started");
+    setGameState("end");
     setWinner(undefined);
     setIsCountdown(false);
     fasterCurrentPosition.current = 0;
@@ -40,6 +40,30 @@ export function GameFlowProvider({ children }: { children: React.ReactNode }) {
       setIsCountdown(false);
     }
   }, [gameState, isCountdown]);
+
+  useEffect(() => {
+    let to: NodeJS.Timeout;
+
+    if (gameState === "finished") {
+      to = setTimeout(() => {
+        setGameState("celebration");
+      }, 3000);
+    }
+
+    return () => clearTimeout(to);
+  }, [gameState, setGameState]);
+
+  useEffect(() => {
+    let to: NodeJS.Timeout;
+
+    if (gameState === "end") {
+      to = setTimeout(() => {
+        setGameState("not-started");
+      }, 200);
+    }
+
+    return () => clearTimeout(to);
+  }, [gameState, setGameState]);
 
   return (
     <GameFlowContext.Provider

@@ -48,7 +48,7 @@ export default function UI() {
         </motion.div>
       )}
 
-      {["celebration", "end"].includes(gameState) && (
+      {["celebration"].includes(gameState) && (
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-black/25 flex items-center justify-center ">
           <motion.div
             className="flex flex-col justify-center items-center p-4 rounded-3xl bg-cyan-50/80 text-cyan-950 drop-shadow-2xl min-w-xs"

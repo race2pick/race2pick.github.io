@@ -21,7 +21,7 @@ export default function Horse({
 
   useEffect(() => {
     app.queueResize();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [players]);
 
   /**
@@ -29,6 +29,9 @@ export default function Horse({
    * then change the fasterCurrentPosition to move the camera
    */
   useTick(() => {
+    if (gameState !== "finished" && app.ticker.speed !== 1) {
+      app.ticker.speed = 1;
+    }
     if (gameState !== "started" || !containerRef.current) return;
 
     let maxX = 0;

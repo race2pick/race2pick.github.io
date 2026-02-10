@@ -17,11 +17,13 @@ export default function HorseAnimation({
   currentSpeed,
   horseColor,
   name,
+  isDone,
 }: {
   index: number;
   name: string;
   currentSpeed: RefObject<number>;
   horseColor: string;
+  isDone: boolean;
 }) {
   const { textures, texturesIdle } = useHorseAssets();
 
@@ -36,8 +38,8 @@ export default function HorseAnimation({
   const maxSpeed = 100;
 
   const isIdle = useMemo(() => {
-    return ["not-started", "end"].includes(gameState);
-  }, [gameState]);
+    return ["not-started", "end"].includes(gameState) || isDone;
+  }, [gameState, isDone]);
 
   const shadowBlur = useMemo(() => [new BlurFilter({ strength: 4 })], []);
 
@@ -53,7 +55,7 @@ export default function HorseAnimation({
      * idle animation speed
      * ====================
      */
-    if (gameState === "not-started" || gameState === "end") {
+    if (gameState === "not-started" || gameState === "end" || isDone) {
       if (!horseRef.current || !shadowRef.current) return;
 
       if (elapsed.current >= 1000) {

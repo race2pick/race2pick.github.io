@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useGameFlow, useTrackSettings } from "@/context/arena";
 import { useTick } from "@pixi/react";
 
@@ -22,10 +22,11 @@ export default function HorseContainer({
   index: number;
   name: string;
 }) {
+  const [isDone, setIsDone] = useState(false);
   const horseContainerRef = useRef<Container | null>(null);
 
   const { gameState } = useGameFlow();
-  const { speed } = useTrackSettings();
+  const { speed, distance } = useTrackSettings();
 
   const minSpeed = speed[0];
   const maxSpeed = speed[1];
@@ -49,7 +50,15 @@ export default function HorseContainer({
     /**
      * when is idle do nothing for movement
      */
-    if (gameState === "not-started" || gameState === "end") {
+    if (gameState === "not-started") {
+      return;
+    }
+
+    if (gameState === "end") {
+      if (horseContainerRef.current) {
+        setIsDone(false);
+        horseContainerRef.current.x = HORSE_START_X;
+      }
       return;
     }
 
@@ -74,6 +83,10 @@ export default function HorseContainer({
     }
 
     if (horseContainerRef.current) {
+      if (horseContainerRef.current.x >= distance + HORSE_START_X) {
+        setIsDone(true);
+        return;
+      }
       horseContainerRef.current.x += baseSpeed * currentSpeed.current * dt;
     }
   });
@@ -85,6 +98,7 @@ export default function HorseContainer({
         name={name}
         currentSpeed={currentSpeed}
         horseColor={horseColor}
+        isDone={isDone}
       />
 
       {/* Name label — positioned behind the horse, right edge at horse's back */}
