@@ -13,19 +13,48 @@ export default function Horse({
 }) {
   const { app } = useApplication();
 
-  const { players, fasterCurrentPosition, gameState } = useArena();
+  const {
+    players,
+    fasterCurrentPosition,
+    gameState,
+    setGameState,
+    distance,
+    setWinner,
+  } = useArena();
 
   const containerRef = useRef<Container>(null);
 
+  /**
+   * tick to listent all horses position
+   * then change the fasterCurrentPosition to move the camera
+   */
   useTick(() => {
     if (gameState !== "started" || !containerRef.current) return;
 
     let maxX = 0;
+    let hasWinner = false;
+
     for (const child of containerRef.current.children) {
+      /**
+       * wheck if the game has a winner
+       */
+      if (!hasWinner && gameState === "started" && child.x >= distance) {
+        hasWinner = true;
+        setGameState("finished");
+        setWinner(child.label);
+        child.x += 5;
+        app.ticker.speed = 0;
+      }
+
+      /**
+       * check child position x to move the camera
+       */
       if (child.x > maxX) {
         maxX = child.x;
       }
     }
+
+    // update fasterCurrentPosition to move the camera
     fasterCurrentPosition.current = maxX;
   });
 
@@ -40,7 +69,7 @@ export default function Horse({
         const gap = maxY / (players.length + 1);
         return (
           <HorseContainer
-          key={`horse-${player}`}
+            key={`horse-${player}`}
             y={(index + 1) * gap}
             index={index}
             name={player}

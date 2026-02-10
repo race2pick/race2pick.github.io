@@ -14,22 +14,24 @@ import { randomMinMax } from "@/game/utils/common";
 export default function HorseAnimation({
   currentSpeed,
   horseColor,
+  name,
 }: {
   index: number;
+  name: string;
   currentSpeed: RefObject<number>;
   horseColor: string;
 }) {
   const { textures, texturesIdle } = useHorseAssets();
 
-  const { gameState, speed } = useArena();
+  const { gameState, winner } = useArena();
 
   const elapsed = useRef(0);
   const shadowRef = useRef<AnimatedSprite | null>(null);
   const horseRef = useRef<AnimatedSprite | null>(null);
   const animationSpeed = useRef(0.05);
 
-  const minSpeed = speed[0];
-  const maxSpeed = speed[1];
+  const minSpeed = 10;
+  const maxSpeed = 100;
 
   const isIdle = useMemo(() => {
     return ["not-started", "end"].includes(gameState);
@@ -60,9 +62,21 @@ export default function HorseAnimation({
       return;
     }
 
+    if (gameState === "finished" && horseRef.current && shadowRef.current) {
+      horseRef.current.animationSpeed = 0;
+      shadowRef.current.animationSpeed = 0;
+
+      if (winner === name) {
+        horseRef.current.currentFrame = 9;
+        shadowRef.current.currentFrame = 9;
+      }
+
+      return;
+    }
+
     /**
      * =====================================
-     * When not Idle running animation speed
+     * Running animation speed
      * =====================================
      */
 

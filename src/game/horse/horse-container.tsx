@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useArena } from "@/context/arena";
 import { useTick } from "@pixi/react";
 
@@ -39,11 +39,6 @@ export default function HorseContainer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const updateSpeed = useCallback(() => {
-    targetSpeed.current = randomMinMax(minSpeed, maxSpeed);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   useTick((tick) => {
     const dt = tick.deltaTime / 60;
     const dtMs = tick.elapsedMS;
@@ -62,7 +57,7 @@ export default function HorseContainer({
      */
     if (elapsed.current >= 2000) {
       elapsed.current = 0;
-      updateSpeed();
+      targetSpeed.current = randomMinMax(minSpeed, maxSpeed);
     }
 
     /**
@@ -83,9 +78,10 @@ export default function HorseContainer({
   });
 
   return (
-    <pixiContainer ref={horseContainerRef} x={HORSE_START_X} y={y}>
+    <pixiContainer ref={horseContainerRef} x={HORSE_START_X} y={y} label={name}>
       <HorseAnimation
         index={index}
+        name={name}
         currentSpeed={currentSpeed}
         horseColor={horseColor}
       />

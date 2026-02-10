@@ -14,13 +14,13 @@ export default function Background({ trackheight }: { trackheight: number }) {
 
       {/* start line */}
       <StartFinishLine
-        x={HORSE_START_X + HORSE_WIDTH - 8}
+        x={HORSE_START_X + HORSE_WIDTH - 22}
         trackHeight={trackheight}
       />
 
       {/* finish line */}
       <StartFinishLine
-        x={distance}
+        x={distance + HORSE_WIDTH}
         trackHeight={trackheight}
       />
 

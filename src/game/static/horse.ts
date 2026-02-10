@@ -26,7 +26,7 @@ export const HORSE_COLORS = [
   "aqua",
 ];
 
-export const baseSpeed = 5;
-export const minAnimSpeed = 0.15;
+export const baseSpeed = 7;
+export const minAnimSpeed = 0.2;
 export const maxAnimSpeed = 0.6;
 export const accelerationDuration = 1000; // 1 second for acceleration/deceleration
