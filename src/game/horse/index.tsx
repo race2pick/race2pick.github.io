@@ -3,7 +3,7 @@ import { useApplication, useTick } from "@pixi/react";
 
 import { HORSE_HEIGHT } from "../static/horse";
 import HorseContainer from "./horse-container";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { Container } from "pixi.js";
 
 export default function Horse({
@@ -23,6 +23,11 @@ export default function Horse({
   } = useArena();
 
   const containerRef = useRef<Container>(null);
+
+  useEffect(() => {
+    app.queueResize();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [players]);
 
   /**
    * tick to listent all horses position
