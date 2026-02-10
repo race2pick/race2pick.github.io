@@ -1,12 +1,14 @@
 import { useDebounceCallback } from "usehooks-ts";
 import { Icon } from "@iconify/react";
 import { useRef, useState, type ButtonHTMLAttributes } from "react";
-import { useArena } from "@/context/arena";
+import { usePlayers, useGameFlow, useTrackSettings } from "@/context/arena";
 import { cleanNames, cn } from "@/lib/utils";
 import { useGameUI } from "@/context/game-ui";
 
 export default function ListName() {
-  const { players, setPlayers, newGame, updateSearchParams } = useArena();
+  const { players, setPlayers } = usePlayers();
+  const { newGame } = useGameFlow();
+  const { updateSearchParams } = useTrackSettings();
   const { rawNames, setRawNames, setIsShareModalOpen, setGameSettingsKey } =
     useGameUI();
 

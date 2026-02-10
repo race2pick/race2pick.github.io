@@ -1,8 +1,8 @@
-import { useArena } from "@/context/arena";
+import { useTrackSettings } from "@/context/arena";
 import { useMemo } from "react";
 
 export function useTrackLength() {
-  const { distance } = useArena();
+  const { distance } = useTrackSettings();
 
   const trackLengthWithBuffer = useMemo(
     () => distance + window.innerWidth,

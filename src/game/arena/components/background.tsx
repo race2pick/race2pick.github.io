@@ -4,10 +4,10 @@ import Grass from "./grass";
 import GrassFaded from "./grass-faded";
 import StartFinishLine from "./start-finish-line";
 import Puddle from "./puddle";
-import { useArena } from "@/context/arena";
+import { useTrackSettings } from "@/context/arena";
 
 export default function Background({ trackheight }: { trackheight: number }) {
-  const {distance} = useArena();
+  const {distance} = useTrackSettings();
   return (
     <pixiContainer x={0} y={0} height={trackheight}>
       <Land trackheight={trackheight} />

@@ -1,4 +1,4 @@
-import { useArena } from "@/context/arena";
+import { usePlayers } from "@/context/arena";
 import { useRef } from "react";
 import { useContainerSize } from "./hooks/useContainerSize";
 import { HORSE_HEIGHT } from "./static/horse";
@@ -23,7 +23,7 @@ extend({
 });
 
 export default function PixiApplication() {
-  const { players } = useArena();
+  const { players } = usePlayers();
   const ref = useRef<HTMLDivElement>(null);
   const size = useContainerSize(ref);
 

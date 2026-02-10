@@ -1,4 +1,4 @@
-import { useArena } from "@/context/arena";
+import { useGameFlow, usePlayers } from "@/context/arena";
 import { motion } from "motion/react";
 import { useGameUI } from "@/context/game-ui";
 import ShareModal from "./share-modal";
@@ -7,7 +7,8 @@ import { Icon } from "@iconify/react";
 import { cn } from "@/lib/utils";
 
 export default function UI() {
-  const { gameState, winner, retry, isCountdown, setPlayers } = useArena();
+  const { gameState, winner, retry, isCountdown } = useGameFlow();
+  const { setPlayers } = usePlayers();
   const { rawNames, setRawNames } = useGameUI();
 
   const removeWinner = () => {

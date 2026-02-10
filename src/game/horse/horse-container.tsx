@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react";
-import { useArena } from "@/context/arena";
+import { useGameFlow, useTrackSettings } from "@/context/arena";
 import { useTick } from "@pixi/react";
 
 import { Container } from "pixi.js";
@@ -24,7 +24,8 @@ export default function HorseContainer({
 }) {
   const horseContainerRef = useRef<Container | null>(null);
 
-  const { gameState, speed } = useArena();
+  const { gameState } = useGameFlow();
+  const { speed } = useTrackSettings();
 
   const minSpeed = speed[0];
   const maxSpeed = speed[1];

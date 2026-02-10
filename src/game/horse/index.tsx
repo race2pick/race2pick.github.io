@@ -1,4 +1,4 @@
-import { useArena } from "@/context/arena";
+import { useGameFlow, usePlayers, useTrackSettings } from "@/context/arena";
 import { useApplication, useTick } from "@pixi/react";
 
 import { HORSE_HEIGHT } from "../static/horse";
@@ -13,14 +13,9 @@ export default function Horse({
 }) {
   const { app } = useApplication();
 
-  const {
-    players,
-    fasterCurrentPosition,
-    gameState,
-    setGameState,
-    distance,
-    setWinner,
-  } = useArena();
+  const { players } = usePlayers();
+  const { fasterCurrentPosition, distance } = useTrackSettings();
+  const { gameState, setGameState, setWinner } = useGameFlow();
 
   const containerRef = useRef<Container>(null);
 

@@ -1,17 +1,13 @@
-import { useArena } from "@/context/arena";
+import { useGameFlow, usePlayers, useTrackSettings } from "@/context/arena";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 export default function Action() {
   const [count, setCount] = useState(-1);
-  const {
-    setGameState,
-    gameState,
-    players,
-    startCountdown,
-    updateSearchParams,
-  } = useArena();
+  const { setGameState, gameState, startCountdown } = useGameFlow();
+  const { players } = usePlayers();
+  const { updateSearchParams } = useTrackSettings();
 
   const canStart = players.length >= 2;
 

@@ -1,7 +1,7 @@
 import { BlurFilter, Color, type AnimatedSprite } from "pixi.js";
 import { useHorseAssets } from "../useHorseAssets";
 import { useMemo, useRef, type RefObject } from "react";
-import { useArena } from "@/context/arena";
+import { useGameFlow } from "@/context/arena";
 import {
   HORSE_HEIGHT,
   HORSE_WIDTH,
@@ -23,7 +23,7 @@ export default function HorseAnimation({
 }) {
   const { textures, texturesIdle } = useHorseAssets();
 
-  const { gameState, winner } = useArena();
+  const { gameState, winner } = useGameFlow();
 
   const elapsed = useRef(0);
   const shadowRef = useRef<AnimatedSprite | null>(null);

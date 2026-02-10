@@ -8,22 +8,28 @@ export const HORSE_ASSETS = {
 };
 
 export const HORSE_COLORS = [
-  "white",
-  "maroon",
-  "black",
-  "silver",
-  "gray",
-  "purple",
-  "fuchsia",
-  "green",
-  "red",
-  "lime",
-  "olive",
-  "yellow",
-  "navy",
-  "blue",
-  "teal",
-  "aqua",
+  "#ffffff", // white
+  "#800000", // maroon
+  "#000000", // black
+  "#800080", // purple
+  "#ff00ff", // fuchsia
+  "#c0c0c0", // silver
+  "#008000", // green
+  "#ff0000", // red
+  "#00ff00", // lime
+  "#808080", // gray
+  "#da70d6", // orchid
+  "#808000", // olive
+  "#ffff00", // yellow
+  "#000080", // navy
+  "#0000ff", // blue
+  "#008080", // teal
+  "#00ffff", // aqua
+  "#ff00ff", // magenta
+  "#7fff00", // chartreuse
+  "#ff4500", // orangered
+  "#40e0d0", // turquoise
+  "#ffd700", // gold
 ];
 
 export const baseSpeed = 7;

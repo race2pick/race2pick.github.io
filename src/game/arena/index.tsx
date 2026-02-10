@@ -4,7 +4,7 @@ import { Container } from "pixi.js";
 import { useRef } from "react";
 import Background from "./components/background";
 import Horse from "../horse";
-import { useArena } from "@/context/arena";
+import { useGameFlow, useTrackSettings } from "@/context/arena";
 import { HORSE_START_X, HORSE_WIDTH } from "../static/horse";
 
 /** Lerp speed for camera smoothing (per frame at 60fps) */
@@ -17,7 +17,8 @@ const LERP_SPEED = 0.05;
 export function Arena({ size }: { size: { width: number; height: number } }) {
   const arenaRef = useRef<Container>(null);
   const { app } = useApplication();
-  const { distance, gameState, fasterCurrentPosition } = useArena();
+  const { gameState } = useGameFlow();
+  const { distance, fasterCurrentPosition } = useTrackSettings();
 
   useTick((tick) => {
     if (!arenaRef.current) return;
