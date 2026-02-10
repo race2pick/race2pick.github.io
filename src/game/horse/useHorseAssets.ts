@@ -1,16 +1,15 @@
 import { Assets, type Texture } from "pixi.js";
-import { useEffect, useState } from "react";
+
+let cachedTextures: Texture[] | null = null;
+let cachedTexturesIdle: Texture[] | null = null;
 
 export const useHorseAssets = () => {
-  const [textures, setTextures] = useState<Texture[]>([]);
-  const [texturesIdle, setTexturesIdle] = useState<Texture[]>([]);
-
-  useEffect(() => {
+  if (!cachedTextures || !cachedTexturesIdle) {
     const spritesheet = Assets.get("horse");
     const spritesheetIdle = Assets.get("horse-idle");
-    setTextures(Object.values(spritesheet.textures) as Texture[]);
-    setTexturesIdle(Object.values(spritesheetIdle.textures) as Texture[]);
-  }, []);
+    cachedTextures = Object.values(spritesheet.textures) as Texture[];
+    cachedTexturesIdle = Object.values(spritesheetIdle.textures) as Texture[];
+  }
 
-  return { textures, texturesIdle };
+  return { textures: cachedTextures, texturesIdle: cachedTexturesIdle };
 };
