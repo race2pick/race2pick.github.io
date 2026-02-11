@@ -58,6 +58,10 @@ export default function HorseContainer({
       if (horseContainerRef.current) {
         setIsDone(false);
         horseContainerRef.current.x = HORSE_START_X;
+        currentSpeed.current = 0;
+        targetSpeed.current = randomMinMax(minSpeed, maxSpeed);
+        currentSpeed.current = 0;
+        elapsed.current = 0;
       }
       return;
     }
