@@ -3,21 +3,10 @@ import type { World } from "../world";
 import { randomMinMax } from "@/game/utils/common";
 import getMaxHorseX from "../helpers/getMaxHorseX";
 
-let prev: World["gameState"] = "not-started";
-
 export default function horseMovementSystem(world: World, tick: Ticker) {
-  if (prev !== world.gameState) {
-    console.log("*****", "gameState", "->", world.gameState);
-  }
   if (world.gameState !== "started" && world.gameState !== "celebration") {
-    if (prev !== world.gameState) {
-      console.log("*****", "break", "->");
-    }
-    prev = world.gameState;
     return;
   }
-
-  prev = world.gameState;
 
   const dt = tick.deltaTime / 60;
   const dtMs = tick.elapsedMS;
