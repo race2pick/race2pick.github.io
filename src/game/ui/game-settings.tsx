@@ -93,9 +93,9 @@ export default function GameSettings() {
             <input
               type="range"
               className="grow no"
-              min={1000}
-              max={10000}
-              step={100}
+              min={30}
+              max={1000}
+              step={10}
               value={trackLong}
               onChange={(e) => setTrackLong(parseInt(e.target.value))}
             />

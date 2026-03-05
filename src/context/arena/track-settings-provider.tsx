@@ -1,9 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TrackSettingsContext } from "./track-settings-context";
 import { useApp } from "../app";
 import { defaultDistance, defaultSpeed } from "./constant";
 import { compressData } from "@/lib/utils";
 import { usePlayers } from "./players-context";
+
+function normalizedDistance(distance: number) {
+  if (distance >= 10000) return 1000;
+
+  if (distance > 1000) return distance / 10;
+
+  return distance;
+}
 
 export function TrackSettingsProvider({
   children,
@@ -19,14 +27,14 @@ export function TrackSettingsProvider({
   const { players } = usePlayers();
   const { setDataSearchParams, getDataSearchParams } = useApp();
 
-  const updateSearchParams = () => {
+  const updateSearchParams = useCallback(() => {
     const compressedData = compressData({
       players: players,
       distance: distance,
       speed: speed,
     });
     setDataSearchParams(compressedData);
-  };
+  }, [players, distance, speed, setDataSearchParams]);
 
   useEffect(() => {
     if (isSearchParamReaded) return;
@@ -37,25 +45,28 @@ export function TrackSettingsProvider({
       setDistance(defaultDistance);
       setSpeed(defaultSpeed);
     } else {
-      setDistance(data.distance);
+      setDistance(normalizedDistance(data.distance));
       setSpeed(data.speed);
     }
 
     setIsSearchParamReaded(true);
   }, [getDataSearchParams, isSearchParamReaded]);
 
+  const value = useMemo(
+    () => ({
+      distance,
+      speed,
+      isSearchParamReaded,
+      fasterCurrentPosition,
+      setDistance,
+      setSpeed,
+      updateSearchParams,
+    }),
+    [distance, speed, isSearchParamReaded, updateSearchParams]
+  );
+
   return (
-    <TrackSettingsContext.Provider
-      value={{
-        distance,
-        speed,
-        isSearchParamReaded,
-        fasterCurrentPosition,
-        setDistance,
-        setSpeed,
-        updateSearchParams,
-      }}
-    >
+    <TrackSettingsContext.Provider value={value}>
       {children}
     </TrackSettingsContext.Provider>
   );
