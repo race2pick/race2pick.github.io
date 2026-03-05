@@ -1,9 +1,14 @@
 import { useGameFlow, useTrackSettings } from "@/context/arena";
 import type { World } from "../ecs/world";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, type RefObject } from "react";
 import { randomMinMax } from "../utils/common";
+import type { Application } from "pixi.js";
 
-export default function useSyncStateToGame(world?: World | null) {
+export default function useSyncStateToGame(
+  initDone: boolean,
+  application: RefObject<Application | null>,
+  world?: World | null,
+) {
   const { gameState } = useGameFlow();
   const { speed } = useTrackSettings();
 
@@ -94,4 +99,14 @@ export default function useSyncStateToGame(world?: World | null) {
       resetWorld();
     }
   }, [gameState, resetWorld, world]);
+
+  useEffect(() => {
+    if (!application.current || !initDone) return;
+
+    if (gameState === "not-started" || gameState === "celebration") {
+      application.current.ticker.maxFPS = 12;
+    } else {
+      application.current.ticker.maxFPS = 60;
+    }
+  }, [application, gameState, initDone]);
 }

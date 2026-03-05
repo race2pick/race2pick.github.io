@@ -1,5 +1,5 @@
 import { useGameFlow, usePlayers, useTrackSettings } from "@/context/arena";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useContainerSize } from "./hooks/useContainerSize";
 import { HORSE_HEIGHT } from "./static/horse";
 
@@ -16,6 +16,7 @@ import createWorld from "./ecs/factories/world";
 import removeEntity from "./ecs/factories/remove-entity";
 
 export default function PixiApplication() {
+  const [initDone, setInitDone] = useState(false);
   const { players } = usePlayers();
   const appContainerRef = useRef<HTMLDivElement>(null);
   const appRef = useRef<Application | null>(null);
@@ -29,7 +30,7 @@ export default function PixiApplication() {
   const distanceRef = useRef(distance);
   distanceRef.current = distance;
 
-  useSyncStateToGame(worldRef.current);
+  useSyncStateToGame(initDone, appRef, worldRef.current);
 
   const syncTrackSettings = useCallback((trackDistance: number) => {
     if (!worldRef.current || !renderRef.current) {
@@ -168,6 +169,8 @@ export default function PixiApplication() {
       app.ticker.add((tick) => {
         gameLoop({ world, render: renderRef.current!, tick });
       });
+
+      setInitDone(true);
     };
 
     if (!worldRef.current) {
@@ -176,6 +179,7 @@ export default function PixiApplication() {
 
     return () => {
       destroyed = true;
+      setInitDone(false);
       if (appRef.current) {
         appRef.current.destroy(true);
         appRef.current = null;
