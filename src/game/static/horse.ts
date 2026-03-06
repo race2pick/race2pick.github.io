@@ -1,4 +1,4 @@
-export const HORSE_START_X = 120;
+export const HORSE_START_X = 160;
 export const HORSE_WIDTH = 90;
 export const HORSE_HEIGHT = 61;
 
@@ -9,27 +9,37 @@ export const HORSE_ASSETS = {
 
 export const HORSE_COLORS = [
   "#ffffff", // white
-  "#800000", // maroon
   "#000000", // black
-  "#800080", // purple
-  "#ff00ff", // fuchsia
-  "#c0c0c0", // silver
-  "#008000", // green
-  "#ff0000", // red
-  "#00ff00", // lime
-  "#808080", // gray
-  "#da70d6", // orchid
-  "#808000", // olive
-  "#ffff00", // yellow
-  "#000080", // navy
-  "#0000ff", // blue
-  "#008080", // teal
-  "#00ffff", // aqua
-  "#ff00ff", // magenta
-  "#7fff00", // chartreuse
-  "#ff4500", // orangered
-  "#40e0d0", // turquoise
-  "#ffd700", // gold
+  "#FF0000", // Red
+  "#FF7F00", // Bright orange
+  "#FFFF00", // Yellow
+  "#BFFF00", // Lime
+  "#00FF00", // Bright green
+  "#00FF7F", // Spring green
+  "#00FFFF", // Cyan
+  "#00BFFF", // Sky blue
+  "#0000FF", // Blue
+  "#4B0082", // Indigo
+  "#8A2BE2", // Blue violet
+  "#FF00FF", // Magenta
+  "#FF1493", // Deep pink
+  "#FF69B4", // Hot pink
+  "#FFD700", // Gold
+  "#ADFF2F", // Green yellow
+  "#40E0D0", // Turquoise
+  "#1E90FF", // Dodger blue
+  "#7B68EE", // Medium slate blue
+  "#BA55D3", // Medium orchid
+  "#FF4500", // Orange red
+  "#32CD32", // Lime green
+  "#00CED1", // Dark turquoise
+  "#4169E1", // Royal blue
+  "#9932CC", // Dark orchid
+  "#FF6347", // Tomato
+  "#2E8B57", // Sea green
+  "#4682B4", // Steel blue
+  "#DA70D6", // Orchid
+  "#FFC0CB", // Light pink
 ];
 
 export const baseSpeed = 7;

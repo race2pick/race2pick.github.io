@@ -22,17 +22,21 @@ const compressData = ({ players, distance, speed }: Data) => {
 const decompressData = (data?: string | null): Data | undefined => {
   if (!data) return undefined;
 
-  const decompressed = decompressFromEncodedURIComponent(data);
+  try {
+    const decompressed = decompressFromEncodedURIComponent(data);
 
-  const [player, distance, speed] = decompressed.split(";");
-  const players = player.split("|");
-  const [speed1, speed2] = speed.split("|");
+    const [player, distance, speed] = decompressed.split(";");
+    const players = player.split("|");
+    const [speed1, speed2] = speed.split("|");
 
-  return {
-    players,
-    distance: Number(distance),
-    speed: [Number(speed1), Number(speed2)],
-  };
+    return {
+      players,
+      distance: Number(distance),
+      speed: [Number(speed1), Number(speed2)],
+    };
+  } catch (_) {
+    return undefined;
+  }
 };
 
 export { cn, cleanNames, compressData, decompressData };

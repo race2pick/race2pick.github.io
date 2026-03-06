@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { GameFlowContext, type GameState } from "./game-flow-context";
 import { usePlayers } from "./players-context";
 import { useTrackSettings } from "./track-settings-context";
@@ -11,27 +11,25 @@ export function GameFlowProvider({ children }: { children: React.ReactNode }) {
   const [isCountdown, setIsCountdown] = useState(false);
 
   const { setPlayers } = usePlayers();
-  const { setDistance, setSpeed, fasterCurrentPosition } = useTrackSettings();
+  const { setDistance, setSpeed } = useTrackSettings();
   const { clearSearchParams } = useApp();
 
-  const startCountdown = () => {
+  const startCountdown = useCallback(() => {
     setIsCountdown(true);
-  };
+  }, []);
 
-  const retry = () => {
+  const retry = useCallback(() => {
     setGameState("end");
-    setWinner(undefined);
     setIsCountdown(false);
-    fasterCurrentPosition.current = 0;
-  };
+  }, []);
 
-  const newGame = () => {
+  const newGame = useCallback(() => {
     clearSearchParams();
     retry();
     setSpeed(defaultSpeed);
     setDistance(defaultDistance);
     setPlayers([]);
-  };
+  }, [clearSearchParams, retry, setSpeed, setDistance, setPlayers]);
 
   useEffect(() => {
     if (!isCountdown) return;
@@ -53,31 +51,22 @@ export function GameFlowProvider({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(to);
   }, [gameState, setGameState]);
 
-  useEffect(() => {
-    let to: NodeJS.Timeout;
-
-    if (gameState === "end") {
-      to = setTimeout(() => {
-        setGameState("not-started");
-      }, 200);
-    }
-
-    return () => clearTimeout(to);
-  }, [gameState, setGameState]);
+  const value = useMemo(
+    () => ({
+      gameState,
+      winner,
+      isCountdown,
+      setGameState,
+      setWinner,
+      startCountdown,
+      retry,
+      newGame,
+    }),
+    [gameState, winner, isCountdown, startCountdown, retry, newGame],
+  );
 
   return (
-    <GameFlowContext.Provider
-      value={{
-        gameState,
-        winner,
-        isCountdown,
-        setGameState,
-        setWinner,
-        startCountdown,
-        retry,
-        newGame,
-      }}
-    >
+    <GameFlowContext.Provider value={value}>
       {children}
     </GameFlowContext.Provider>
   );

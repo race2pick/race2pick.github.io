@@ -4,7 +4,7 @@ import {
   PUDDLE_ALIASES,
 } from "@/game/static/assets";
 import { HORSE_ASSETS } from "@/game/static/horse";
-import { Assets } from "pixi.js";
+import { Assets, Texture } from "pixi.js";
 
 let assetsPromise: Promise<void>[] | null = null;
 
@@ -37,16 +37,24 @@ async function loadLandAssets() {
   });
 }
 
-async function loadHorseAssets() {
-   await Assets.load({
+export async function loadHorseRunningAssets() {
+  return Assets.load({
     alias: HORSE_ASSETS.horse,
     src: "./horse-sprites.json",
   });
+}
 
-  await Assets.load({
+export async function loadHorseIdleAssets() {
+  return Assets.load({
     alias: HORSE_ASSETS["horse-idle"],
     src: "./horse-idle-sprites.json",
   });
+}
+
+async function loadHorseAssets() {
+  await loadHorseRunningAssets();
+
+  await loadHorseIdleAssets();
 }
 
 export function loadAssets() {
@@ -54,4 +62,30 @@ export function loadAssets() {
     assetsPromise = [loadLandAssets(), loadHorseAssets()];
   }
   return Promise.all(assetsPromise);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getTexture(spritesheet: any) {
+  if (!spritesheet?.textures) return [];
+  return Object.values(spritesheet.textures) as Texture[];
+}
+
+export async function getHorseRunningAssets() {
+  const horseRun = await Assets.get(HORSE_ASSETS.horse);
+  if (!horseRun) {
+    await loadHorseRunningAssets();
+    return getTexture(Assets.get(HORSE_ASSETS.horse));
+  }
+
+  return getTexture(horseRun);
+}
+
+export async function getHorseIdleAssets() {
+  const horseIdle = await Assets.get(HORSE_ASSETS["horse-idle"]);
+  if (!horseIdle) {
+    await loadHorseRunningAssets();
+    return getTexture(Assets.get(HORSE_ASSETS["horse-idle"]));
+  }
+
+  return getTexture(horseIdle);
 }

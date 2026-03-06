@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { PlayersContext } from "./players-context";
 import { useApp } from "../app";
 
@@ -10,7 +10,7 @@ export function PlayersProvider({ children }: { children: React.ReactNode }) {
 
   const { getDataSearchParams } = useApp();
 
-  const setPlayers = (names: string[]) => {
+  const setPlayers = useCallback((names: string[]) => {
     if (!names?.length) {
       _setPlayers([]);
       return;
@@ -22,7 +22,7 @@ export function PlayersProvider({ children }: { children: React.ReactNode }) {
       .filter((name) => !!name);
 
     _setPlayers(cleanNames);
-  };
+  }, []);
 
   useEffect(() => {
     if (isReaded) return;
@@ -36,10 +36,12 @@ export function PlayersProvider({ children }: { children: React.ReactNode }) {
     }
 
     setIsReaded(true);
-  }, [getDataSearchParams, isReaded]);
+  }, [getDataSearchParams, isReaded, setPlayers]);
+
+  const value = useMemo(() => ({ players, setPlayers }), [players, setPlayers]);
 
   return (
-    <PlayersContext.Provider value={{ players, setPlayers }}>
+    <PlayersContext.Provider value={value}>
       {children}
     </PlayersContext.Provider>
   );
