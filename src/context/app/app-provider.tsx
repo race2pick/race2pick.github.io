@@ -8,7 +8,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const getDataSearchParams = (): Data | undefined => {
     const searchParams = new URLSearchParams(window.location.search);
-    const data = searchParams.get("d");
+    let data = searchParams.get("d");
+
+    if (!data) {
+      const hash = window.location.hash.slice(1); // delete "#"
+      const params = new URLSearchParams(hash);
+      data = params.get("d");
+    }
     return decompressData(data);
   };
 
@@ -20,7 +26,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const setDataSearchParams = (data: string) => {
     const url = new URL(window.location.origin);
-    url.searchParams.set("d", data);
+    url.hash = `d=${data}`;
     window.history.pushState({}, "", url);
   };
 
