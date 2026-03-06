@@ -1,10 +1,9 @@
 import type { World } from "@/game/ecs/world";
 import type { Render } from "../types";
-import { AnimatedSprite, BlurFilter, Color, Container } from "pixi.js";
+import { AnimatedSprite, Color, Container } from "pixi.js";
 import createTextName from "./createTextName";
 
 const shadowColor = new Color(0x000000);
-const shadowBlur = new BlurFilter({ strength: 4 });
 
 export default function renderHorses(
   world: World,
@@ -64,8 +63,8 @@ export default function renderHorses(
       scale: { x: 0.3, y: -0.1 },
       tint: shadowColor,
       autoPlay: true,
-      alpha: 0.3,
-      filters: [shadowBlur],
+      alpha: 0.1,
+      filters: [],
       animationSpeed: animation.speed,
     });
 
