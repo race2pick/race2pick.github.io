@@ -16,7 +16,14 @@ function Share() {
   useEffect(() => {
     const getSlug = async () => {
       const searchParams = new URLSearchParams(window.location.search);
-      const data = searchParams.get("d") ?? "";
+      let data = searchParams.get("d");
+
+      if (!data) {
+        const hash = window.location.hash.slice(1); // delete "#"
+        const params = new URLSearchParams(hash);
+        data = params.get("d") ?? "";
+      }
+
       const slug = await fetchData(data);
 
       setSlug(slug);
