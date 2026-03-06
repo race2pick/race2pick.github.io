@@ -2,7 +2,6 @@ import {
   AnimatedSprite,
   Application,
   Container,
-  RenderLayer,
   Texture,
 } from "pixi.js";
 import {

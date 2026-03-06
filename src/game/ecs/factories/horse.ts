@@ -1,29 +1,11 @@
-import type { HorseEntity } from "@/game/ecs/entities/horse";
-import type { HorseTag, Meta } from "@/game/ecs/components";
-import { HORSE_COLORS, HORSE_START_X } from "@/game/static/horse";
+import type { Meta } from "@/game/ecs/components";
+import { HORSE_COLORS } from "@/game/static/horse";
 import { createRandomCycle, randomMinMax } from "@/game/utils/common";
 import type { World } from "../world";
 import { createEntity } from "./entity";
 import type { EntityId } from "../entities/entity";
 
 const getHorseColor = createRandomCycle(HORSE_COLORS);
-
-export function createHorseEntity({
-  name,
-  index,
-  y,
-}: {
-  name: HorseTag["name"];
-  index: number;
-  y: number;
-}): HorseEntity {
-  return {
-    position: { x: HORSE_START_X, y },
-    velocity: { current: 0, target: 0, elapsed: 0 },
-    tag: { name, color: getHorseColor() ?? HORSE_COLORS[0], index },
-    sprite: { animSpeed: randomMinMax(0.05, 0.5), isIdle: true },
-  };
-}
 
 export function calculateHorseGap(world: World, playerLength: number) {
   const horseMaxY = world.screen.height - world.constants.horse.height / 1.25;
