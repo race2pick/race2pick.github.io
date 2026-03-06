@@ -51,7 +51,7 @@ export default function createTextName(name: string, color: string) {
     bg.clear();
     bg.roundRect(-boxW, -boxH / 2, boxW, boxH, 4).fill({
       color: color,
-      alpha: 0.2,
+      alpha: 0.1,
     });
   }
 
