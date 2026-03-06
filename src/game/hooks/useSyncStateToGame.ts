@@ -103,10 +103,12 @@ export default function useSyncStateToGame(
   useEffect(() => {
     if (!application.current || !initDone) return;
 
-    if (gameState === "not-started" || gameState === "celebration") {
-      application.current.ticker.maxFPS = 12;
+    if (gameState === "not-started") {
+      application.current.ticker.maxFPS = 18;
+    } else if (gameState === "celebration") {
+      application.current.ticker.maxFPS = 36;
     } else {
-      application.current.ticker.maxFPS = 60;
+      application.current.ticker.maxFPS = 0;
     }
   }, [application, gameState, initDone]);
 }
