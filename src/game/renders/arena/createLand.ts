@@ -84,7 +84,6 @@ export default function createLand(world: World) {
     .clear()
     .rect(0, world.screen.height - 15, trackLengthWithBuffer, 15)
     .fill(fadedGradient);
-  
 
-  return [ground, groundGrass, faded];
+  return { ground: [ground, groundGrass], faded };
 }

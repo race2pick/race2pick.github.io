@@ -21,7 +21,7 @@ export default function renderArena(world: World, render: Render) {
     if (!cachedContainers.has(c)) c.destroy();
   });
 
-  const ground = createLand(world);
+  const {ground, faded} = createLand(world);
   const grasses = createGrasses(world, arena, app.renderer);
   const grassFeded = createGrassFaded(world, arena, app.renderer);
   const puddles = createPuddle(world, arena, app.renderer);
@@ -30,6 +30,7 @@ export default function renderArena(world: World, render: Render) {
 
   ground.forEach((g) => arena.container.addChild(g));
   startFinishLine.forEach((s) => arena.container.addChild(s));
+  arena.container.addChild(faded);
   arena.container.addChild(grasses);
   arena.container.addChild(grassFeded);
   arena.container.addChild(puddles);
