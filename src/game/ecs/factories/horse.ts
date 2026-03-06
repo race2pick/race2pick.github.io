@@ -51,6 +51,7 @@ export function createHorse(
   world.meta.set(entityId, {
     name,
     color: getHorseColor() ?? HORSE_COLORS[0],
+    index,
   });
 
   world.position.set(entityId, {
@@ -91,4 +92,9 @@ export function updateHorse(
     x: world.constants.horse.startX,
     y: (index + 1) * horseGap + world.constants.horse.height / 4,
   });
+
+  const meta = world.meta.get(entityId);
+  if (meta) {
+    meta.index = index;
+  }
 }

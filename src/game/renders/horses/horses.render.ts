@@ -20,14 +20,15 @@ export default function renderHorses(
     const position = world.position.get(entityId) ?? { x: 0, y: 0 };
 
     const existing = horseView.horse.get(entityId);
+    const meta = world.meta.get(entityId) ?? { name: "", color: "", index: 0 };
 
     if (existing) {
       existing.container.x = position.x;
       existing.container.y = position.y;
+      existing.container.zIndex = meta.index;
       return;
     }
 
-    const meta = world.meta.get(entityId) ?? { name: "", color: "" };
     const animation = world.animation.get(entityId) ?? {
       name: "idle",
       speed: 0,
@@ -36,6 +37,7 @@ export default function renderHorses(
     const container = new Container({ label: name });
     container.x = position.x;
     container.y = position.y;
+    container.zIndex = meta.index;
 
     const sprite = new AnimatedSprite({
       textures:
