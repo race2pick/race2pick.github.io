@@ -39,6 +39,11 @@ export function useSlug() {
   const [isLoading, setIsLoading] = useState(false);
 
   function fetchData(data: string) {
+    // Immediately treat as failed if string exceeds 512 characters due to Cloudflare limit
+    if(!data || data.length > 512) {
+      return undefined;
+    }
+
     if (cache[data]) {
       return cache[data];
     }
